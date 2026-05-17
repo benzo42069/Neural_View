@@ -50,5 +50,6 @@ export class TokenSeed {
       (this.pool as any)['colors'][i3 + 2] = color.b;
       (this.pool as any)['sizes'][idx] = (0.5 + Math.random()) * (0.5 + this.currentBrightness);
     }
+    this.pool.update();
   }
 }
