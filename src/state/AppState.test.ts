@@ -48,4 +48,13 @@ describe('AppState', () => {
     state.cancel();
     expect(state.phase).toBe('VOID');
   });
+
+  it('unsubscribe removes listener', () => {
+    const state = new AppState();
+    const listener = vi.fn();
+    const unsubscribe = state.subscribe(listener);
+    unsubscribe();
+    state.focus();
+    expect(listener).toHaveBeenCalledTimes(1); // only initial call
+  });
 });

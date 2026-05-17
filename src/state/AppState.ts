@@ -1,4 +1,4 @@
-import type { AppPhase, AppStateSnapshot, StateListener, ActivationSummary } from './types';
+import type { AppPhase, AppStateSnapshot, StateListener } from './types';
 
 export class AppState {
   private _phase: AppPhase = 'VOID';
@@ -18,7 +18,11 @@ export class AppState {
 
   subscribe(listener: StateListener): () => void {
     this._listeners.push(listener);
-    listener(this.snapshot);
+    try {
+      listener(this.snapshot);
+    } catch {
+      // Ignore errors in initial synchronous notification
+    }
     return () => {
       const idx = this._listeners.indexOf(listener);
       if (idx !== -1) this._listeners.splice(idx, 1);
@@ -27,7 +31,9 @@ export class AppState {
 
   private notify() {
     const snap = this.snapshot;
-    this._listeners.forEach(l => l(snap));
+    this._listeners.forEach(l => {
+      try { l(snap); } catch { /* ignore */ }
+    });
   }
 
   get snapshot(): AppStateSnapshot {
