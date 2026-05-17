@@ -38,7 +38,14 @@ describe('PromptInput', () => {
     state.focus();
     state.submit('hello');
     const wrapper = document.querySelector('.prompt-wrapper') as HTMLElement;
-    expect(wrapper.style.opacity).toBe('0');
-    expect(wrapper.style.pointerEvents).toBe('none');
+    expect(getComputedStyle(wrapper).opacity).toBe('0');
+    expect(getComputedStyle(wrapper).pointerEvents).toBe('none');
+  });
+
+  it('destroy removes the element', () => {
+    const state = new AppState();
+    const input = new PromptInput(state, document.getElementById('ui-layer')!);
+    input.destroy();
+    expect(document.querySelector('.prompt-wrapper')).toBeNull();
   });
 });

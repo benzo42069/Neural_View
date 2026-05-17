@@ -5,6 +5,7 @@ export class PromptInput {
   private element: HTMLInputElement;
   private wrapper: HTMLDivElement;
   private unsubscribe: () => void;
+  private abortController: AbortController;
 
   constructor(private state: AppState, container: HTMLElement) {
     this.wrapper = document.createElement('div');
@@ -23,13 +24,16 @@ export class PromptInput {
     this.wrapper.appendChild(this.element);
     container.appendChild(this.wrapper);
 
-    this.element.addEventListener('focus', () => state.focus());
-    this.element.addEventListener('blur', () => state.blur());
-    this.element.addEventListener('input', () => state.type(this.element.value));
+    this.abortController = new AbortController();
+    const signal = this.abortController.signal;
+
+    this.element.addEventListener('focus', () => state.focus(), { signal });
+    this.element.addEventListener('blur', () => state.blur(), { signal });
+    this.element.addEventListener('input', () => state.type(this.element.value), { signal });
     this.element.addEventListener('keydown', (e) => {
       if (e.key === 'Enter') state.submit(this.element.value);
       if (e.key === 'Escape') state.cancel();
-    });
+    }, { signal });
 
     this.unsubscribe = state.subscribe((snap) => {
       if (snap.phase === 'JOURNEY') {
@@ -47,6 +51,7 @@ export class PromptInput {
   }
 
   destroy() {
+    this.abortController.abort();
     this.unsubscribe();
     this.wrapper.remove();
   }
