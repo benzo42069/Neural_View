@@ -1,0 +1,40 @@
+.ignite-button {
+  width: 80px;
+  height: 44px;
+  margin-top: 16px;
+  background: transparent;
+  border: 1px solid rgba(180, 200, 255, 0.3);
+  border-radius: 22px;
+  color: rgba(220, 230, 255, 0.7);
+  font-family: var(--font-primary);
+  font-size: var(--font-size-label);
+  letter-spacing: var(--letter-spacing-wide);
+  text-transform: uppercase;
+  cursor: pointer;
+  opacity: 0;
+  transform: translateY(8px);
+  transition: opacity 0.4s ease, transform 0.4s ease, border-color 0.3s ease;
+}
+
+.ignite-button.visible {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+.ignite-button:hover {
+  border-color: rgba(180, 200, 255, 0.8);
+  color: var(--star-white);
+}
+
+.ignite-button:focus-visible {
+  outline: 2px solid rgba(180, 200, 255, 0.8);
+  outline-offset: 3px;
+}
+
+@media (max-width: 768px) {
+  .ignite-button {
+    width: 90vw;
+    max-width: 300px;
+    border-radius: 4px;
+  }
+}
