@@ -4,6 +4,7 @@ const VIOLET: RGB = { r: 0.71, g: 0.47, b: 1.0 };
 const WHITE: RGB = { r: 1.0, g: 1.0, b: 1.0 };
 const RED: RGB = { r: 1.0, g: 0.3, b: 0.3 };
 const GOLD: RGB = { r: 1.0, g: 0.8, b: 0.4 };
+const GOLDEN_ANGLE_DEG = 137.508;
 
 function lerp(a: number, b: number, t: number): number {
   return a + (b - a) * t;
@@ -27,5 +28,5 @@ export function ffnToColor(energy: number): RGB {
 }
 
 export function hueForToken(index: number): number {
-  return (index * 137.508) % 360;
+  return (index * GOLDEN_ANGLE_DEG) % 360;
 }

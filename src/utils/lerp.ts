@@ -10,7 +10,7 @@ export function lerpColor(
   a: { r: number; g: number; b: number },
   b: { r: number; g: number; b: number },
   t: number
-) {
+): { r: number; g: number; b: number } {
   return {
     r: lerp(a.r, b.r, t),
     g: lerp(a.g, b.g, t),
