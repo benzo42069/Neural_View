@@ -1,0 +1,41 @@
+.prompt-wrapper {
+  transition: opacity 0.8s ease;
+}
+
+.prompt-input {
+  background: transparent;
+  border: none;
+  outline: none;
+  color: var(--star-white);
+  font-family: var(--font-primary);
+  font-size: var(--font-size-input);
+  font-weight: 300;
+  text-align: center;
+  caret-color: var(--star-white);
+  text-shadow: 0 0 20px rgba(180, 200, 255, 0.3);
+  width: 80vw;
+  max-width: 600px;
+  padding: 12px 0;
+}
+
+.prompt-input::placeholder {
+  color: var(--star-white);
+  opacity: 0.4;
+  font-style: italic;
+}
+
+.prompt-input:focus {
+  outline: none;
+}
+
+.prompt-input:focus-visible {
+  outline: 2px solid rgba(180, 200, 255, 0.8);
+  outline-offset: 4px;
+  border-radius: 4px;
+}
+
+@media (max-width: 768px) {
+  .prompt-input {
+    width: 90vw;
+  }
+}
