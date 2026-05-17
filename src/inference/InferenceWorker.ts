@@ -46,9 +46,7 @@ self.onmessage = async (e: MessageEvent) => {
 
         const activations = new Map<string, Float32Array>();
         for (const [name, tensor] of Object.entries(results)) {
-          if (name !== 'logits') {
-            activations.set(name, tensor.data as Float32Array);
-          }
+          activations.set(name, tensor.data as Float32Array);
         }
 
         const summary = extractSummary(0, step, activations);
