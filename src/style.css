@@ -1,3 +1,12 @@
+
+@media (prefers-reduced-motion: reduce) {
+  .prompt-wrapper,
+  .ignite-button,
+  .loading-indicator,
+  .error-overlay {
+    transition: none !important;
+  }
+}
 .sr-only {
   position: absolute;
   width: 1px;

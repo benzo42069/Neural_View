@@ -43,12 +43,12 @@ export class TokenSeed {
     for (let i = 0; i < this.particlesPerSeed; i++) {
       const idx = this.baseIndex + i;
       const i3 = idx * 3;
-      (this.pool as any)['positions'][i3] += (Math.random() - 0.5) * 0.01;
-      (this.pool as any)['positions'][i3 + 1] += (Math.random() - 0.5) * 0.01;
-      (this.pool as any)['colors'][i3] = color.r;
-      (this.pool as any)['colors'][i3 + 1] = color.g;
-      (this.pool as any)['colors'][i3 + 2] = color.b;
-      (this.pool as any)['sizes'][idx] = (0.5 + Math.random()) * (0.5 + this.currentBrightness);
+      this.pool.positions[i3] += (Math.random() - 0.5) * 0.01;
+      this.pool.positions[i3 + 1] += (Math.random() - 0.5) * 0.01;
+      this.pool.colors[i3] = color.r;
+      this.pool.colors[i3 + 1] = color.g;
+      this.pool.colors[i3 + 2] = color.b;
+      this.pool.sizes[idx] = (0.5 + Math.random()) * (0.5 + this.currentBrightness);
     }
     this.pool.update();
   }

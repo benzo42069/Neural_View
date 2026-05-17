@@ -8,8 +8,6 @@ export default defineConfig({
       output: {
         manualChunks: {
           three: ['three'],
-          onnx: ['onnxruntime-web'],
-          gsap: ['gsap'],
         },
       },
     },

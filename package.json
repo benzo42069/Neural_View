@@ -10,7 +10,6 @@
     "test:run": "vitest run"
   },
   "dependencies": {
-    "gsap": "^3.12.5",
     "onnxruntime-web": "^1.16.3",
     "three": "^0.160.0"
   },

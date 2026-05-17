@@ -10,6 +10,8 @@ export class ErrorOverlay {
   constructor(state: AppState, container: HTMLElement, onRetry: () => void) {
     this.el = document.createElement('div');
     this.el.className = 'error-overlay';
+    this.el.setAttribute('role', 'alertdialog');
+    this.el.setAttribute('aria-modal', 'true');
 
     this.message = document.createElement('span');
     this.message.className = 'error-message';
@@ -28,6 +30,7 @@ export class ErrorOverlay {
       this.el.classList.toggle('visible', visible);
       if (visible) {
         this.message.textContent = snap.error!;
+        this.retryBtn.focus();
       }
     });
   }
