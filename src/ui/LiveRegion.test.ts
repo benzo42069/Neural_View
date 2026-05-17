@@ -20,4 +20,21 @@ describe('LiveRegion', () => {
     const el = document.querySelector('[aria-live="polite"]') as HTMLElement;
     expect(el.textContent).toContain('journey has begun');
   });
+
+  it('announces journey end', () => {
+    const state = new AppState();
+    new LiveRegion(state, document.getElementById('ui-layer')!);
+    state.focus();
+    state.submit('hello');
+    state.complete();
+    const el = document.querySelector('[aria-live="polite"]') as HTMLElement;
+    expect(el.textContent).toContain('journey ends');
+  });
+
+  it('destroy removes the live region', () => {
+    const state = new AppState();
+    const lr = new LiveRegion(state, document.getElementById('ui-layer')!);
+    lr.destroy();
+    expect(document.querySelector('[aria-live="polite"]')).toBeNull();
+  });
 });
