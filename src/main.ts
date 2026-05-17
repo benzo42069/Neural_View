@@ -9,6 +9,12 @@ import { ReducedMotion } from './ui/ReducedMotion';
 import { GalaxyScene } from './visualization/GalaxyScene';
 import { ModelLoader } from './inference/ModelLoader';
 import { SimpleTokenizer } from './inference/Tokenizer';
+import type { ActivationSummary } from './state/types';
+
+type WorkerResponse =
+  | { type: 'summary'; summary: ActivationSummary }
+  | { type: 'complete'; tokens: number[] }
+  | { type: 'error'; message: string };
 
 async function init() {
   const canvas = document.getElementById('galaxy-canvas') as HTMLCanvasElement;
@@ -51,18 +57,18 @@ async function init() {
 
     worker.postMessage({ type: 'load', buffer: modelBuffer }, [modelBuffer]);
 
-    worker.onmessage = (e) => {
-      const { type, summary, tokens: generated, message } = e.data;
+    worker.onmessage = (e: MessageEvent<WorkerResponse>) => {
+      const { type } = e.data;
       if (type === 'summary') {
-        console.log('Activation summary:', summary);
+        console.log('Activation summary:', e.data.summary);
       }
       if (type === 'complete') {
-        console.log('Generated tokens:', generated);
+        console.log('Generated tokens:', e.data.tokens);
         setTimeout(() => state.complete(), 3000);
         worker.terminate();
       }
       if (type === 'error') {
-        state.setError(message);
+        state.setError(e.data.message);
         worker.terminate();
       }
     };
