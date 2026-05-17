@@ -2,12 +2,17 @@ import * as ort from 'onnxruntime-web';
 import { extractSummary } from './probes';
 import type { ActivationSummary } from '../state/types';
 
+type WorkerMessage =
+  | { type: 'load'; buffer: ArrayBuffer }
+  | { type: 'infer'; promptTokens: number[] };
+
 let session: ort.InferenceSession | null = null;
 
-self.onmessage = async (e: MessageEvent) => {
-  const { type, buffer, promptTokens } = e.data;
+self.onmessage = async (e: MessageEvent<WorkerMessage>) => {
+  const { type } = e.data;
 
   if (type === 'load') {
+    const { buffer } = e.data;
     try {
       session = await ort.InferenceSession.create(buffer, {
         executionProviders: ['wasm'],
@@ -20,6 +25,7 @@ self.onmessage = async (e: MessageEvent) => {
   }
 
   if (type === 'infer') {
+    const { promptTokens } = e.data;
     if (!session) {
       self.postMessage({ type: 'error', message: 'Model not loaded' });
       return;
