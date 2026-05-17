@@ -4,6 +4,7 @@ import './IgniteButton.css';
 export class IgniteButton {
   private button: HTMLButtonElement;
   private unsubscribe: () => void;
+  private handleClick: () => void;
 
   constructor(private state: AppState, container: HTMLElement) {
     this.button = document.createElement('button');
@@ -13,9 +14,10 @@ export class IgniteButton {
     this.button.tabIndex = -1;
     container.appendChild(this.button);
 
-    this.button.addEventListener('click', () => {
+    this.handleClick = () => {
       state.submit(state.prompt);
-    });
+    };
+    this.button.addEventListener('click', this.handleClick);
 
     this.unsubscribe = state.subscribe((snap) => {
       const hasContent = snap.prompt.trim().length > 0;
@@ -27,6 +29,7 @@ export class IgniteButton {
   }
 
   destroy() {
+    this.button.removeEventListener('click', this.handleClick);
     this.unsubscribe();
     this.button.remove();
   }

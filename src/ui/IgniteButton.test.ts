@@ -30,4 +30,11 @@ describe('IgniteButton', () => {
     btn.click();
     expect(state.phase).toBe('JOURNEY');
   });
+
+  it('destroy removes the button', () => {
+    const state = new AppState();
+    const btn = new IgniteButton(state, document.getElementById('ui-layer')!);
+    btn.destroy();
+    expect(document.querySelector('.ignite-button')).toBeNull();
+  });
 });
